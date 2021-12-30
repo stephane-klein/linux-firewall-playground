@@ -14,4 +14,8 @@ sed -i "s/FirewallBackend=iptables/FirewallBackend=nftables/g" /etc/firewalld/fi
 systemctl enable firewalld
 systemctl start firewalld
 
+firewall-cmd --permanent --zone=public --add-interface=enp0s8
+firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --permanent --zone=public --add-service=https
+firewall-cmd --reload
 ./drop-outgoing-traffic.sh
