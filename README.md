@@ -1,5 +1,7 @@
 # Linux firewall playground environment
 
+This playground use [`firewalld`](https://firewalld.org/) software which is a `nftables` overlay.
+
 ## Prerequisites
 
 On ArchLinux:
@@ -19,4 +21,21 @@ root@ubuntu-focal:/home/vagrant# cd /vagrant/
 root@ubuntu-focal:/vagrant# ./install.sh
 ```
 
-next, see [issues](https://github.com/stephane-klein/linux-firewall-playground/issues).
+## firewalld configuration
+
+See [`./drop-outgoing-traffic.sh`](./drop-outgoing-traffic.sh) file.
+
+## A few experiments
+
+All outgoing traffic are dropped:
+
+```sh
+root@ubuntu-focal:/vagrant# curl --connect-timeout 1 https://linuxfr.org
+curl: (28) Connection timed out after 1001 milliseconds
+```
+
+An exception is configured for `stephane-klein.info` domain:
+
+```sh
+root@ubuntu-focal:/vagrant# curl -s -o /dev/null -w "%{http_code}"  https://stephane-klein.info
+```
