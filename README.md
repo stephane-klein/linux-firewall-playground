@@ -1,4 +1,4 @@
-# iptables playground environment
+# Linux firewall playground environment
 
 ## Prerequisites
 
@@ -19,4 +19,4 @@ root@ubuntu-focal:/home/vagrant# cd /vagrant/
 root@ubuntu-focal:/vagrant# ./install.sh
 ```
 
-next, see [issues](https://github.com/stephane-klein/vagrant-iptables-playground/issues).
+next, see [issues](https://github.com/stephane-klein/linux-firewall-playground/issues).
