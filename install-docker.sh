@@ -3,8 +3,7 @@
 set -ev
 
 # Disable drop outgoing traffic for installation
-firewall-cmd --permanent --direct --remove-rule ipv4 filter OUTPUT 2 -j DROP
-firewall-cmd --reload
+firewall-cmd --permanent --direct --remove-rule ipv4 filter OUTPUT 2 -j DROP; firewall-cmd --reload
 
 # ** Install Ubuntu base packages
 export DEBIAN_FRONTEND=noninteractive
@@ -24,10 +23,15 @@ echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" > 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 apt-get update -y
 apt-get install -y docker-ce
-pip3 install docker-compose
 usermod -aG docker vagrant
 
-# Enable drop outgoing traffic
-firewall-cmd --permanent --direct --add-rule ipv4 filter OUTPUT 2 -j DROP
+# Install docker compose v2 https://docs.docker.com/compose/cli-command/#install-on-linux
+# (I didn't find a Ubuntu Package to install it)
+mkdir -p /usr/local/lib/docker/cli-plugins/
+curl -SL https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-firewall-cmd --reload
+docker compose version
+
+# Enable drop outgoing traffic
+firewall-cmd --permanent --direct --add-rule ipv4 filter OUTPUT 2 -j DROP; firewall-cmd --reload
